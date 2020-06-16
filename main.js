@@ -2,12 +2,11 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const client = new Discord.Client();
 const prefix = config.prefix;
-
+var lastPlayer="";
 //Initiate Bot
 client.on('ready', () => {
     console.log("civMention online");
     client.user.setActivity('Monitoring Civ 6' + prefix);
-    var testName = "sdf";
 });
 
 //Bot checks whenever a message is sent
@@ -23,8 +22,15 @@ client.on("message", async message => {
     const args = message.content.slice(prefix).trim().split(/ +/g);
     //Get command
     const command = args[0];
+
+    if(command ==="!Remind"){
+        if (typeof config.users[lastPlayer] !== 'undefined') {
+            var finalMessage = "<@" + config.users[lastPlayer] + "> Hurry up, the game is waiting on you";
+            message.channel.send(finalMessage);;
+        }
+    }
     //Check if message is from the webhook
-    if(command === "!Civ") {
+    else if(command === "!Civ") {
         //Handle 1 word user names or multiple user names
         var webHookName = "";
         var gameName = "";
@@ -59,10 +65,12 @@ client.on("message", async message => {
             console.log("Name: " + webHookName);
             console.log("UID: " + config.users[webHookName]);
             finalMessage += config.users[webHookName];
+            lastPlayer = webHookName;
         } else {
             finalMessage = "The userID for " + webHookName+ " was not found";
             message.channel.send(finalMessage);
             console.log(finalMessage);
+            lastPlayer = "N/A";
             return;
         }
         //Finalize and send message
