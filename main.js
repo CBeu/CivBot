@@ -11,6 +11,9 @@ client.on('ready', () => {
 });
 
 //Bot checks whenever a message is sent
+//Messages come in this format from the webhook
+// !Civ Hey {username} it's time to take your turn #{turnNumber} in {gameName}!
+// {username} and {gameName} can both be a single word or multiple words
 client.on("message", async message => {
     //Check if message has balid prefix
     if(!message.content.startsWith(prefix)){
@@ -28,7 +31,6 @@ client.on("message", async message => {
         var nameStart = 0;
         var nameEnd = 0;
         for (i in args){
-            console.log(args[i] + " position: " + i + " "+ gameLength);
             if (args[i] === "Hey") {
                 nameStart = gameLength + 1;
             }
@@ -40,7 +42,7 @@ client.on("message", async message => {
         for (var i = nameStart; i <= nameEnd; i++) {
             webHookName += args[i];
         }
-        console.log("The NAME IS " + webHookName);
+        
         //Make message a mention
         var finalMessage = "<@";
         //Get the userID from the config file
