@@ -45,7 +45,7 @@ client.on("message", async message => {
             message.channel.send(finalMessage);
         }
         else if (typeof lastMove[gameName] !== 'undefined') {
-            var finalMessage = "<@" + config.users[lastMove[gameName]] + "> hurry up, the game is waiting on you ";
+            var finalMessage = "<@" + config.users[lastMove[gameName]] + "> hurry up, it's your move on  " + gameName;
             message.channel.send(finalMessage);
         } else {
             var finalMessage = "I don't have a record of that game.";
