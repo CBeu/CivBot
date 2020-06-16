@@ -27,9 +27,11 @@ client.on("message", async message => {
     if(command === "!Civ") {
         //Handle 1 word user names or multiple user names
         var webHookName = "";
+        var gameName = "";
         var gameLength = 0;
         var nameStart = 0;
         var nameEnd = 0;
+        var gameStart = 0;
         for (i in args){
             if (args[i] === "Hey") {
                 nameStart = gameLength + 1;
@@ -37,12 +39,18 @@ client.on("message", async message => {
             if (args[i] === "it's") {
                 nameEnd = gameLength-1;
             }
+            if (args[i] === "in") {
+                gameStart = gameLength+1;
+            }
             gameLength++;
         }
         for (var i = nameStart; i <= nameEnd; i++) {
             webHookName += args[i];
         }
-        
+        for (var i = gameStart; i <= args.length-1; i++) {
+            gameName += args[i];
+        }
+        console.log("The game is called " + gameName);
         //Make message a mention
         var finalMessage = "<@";
         //Get the userID from the config file
@@ -58,7 +66,7 @@ client.on("message", async message => {
             return;
         }
         //Finalize and send message
-        finalMessage += "> It's your turn on the Civ6 Cloud Save Game called " + args[args.length-1];
+        finalMessage += "> It's your turn on the Civ6 Cloud Save Game called " + gameName;
         message.channel.send(finalMessage);
     } else {
         return;
