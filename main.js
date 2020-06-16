@@ -24,13 +24,23 @@ client.on("message", async message => {
     if(command === "!Civ") {
         //Handle 1 word user names or multiple user names
         var webHookName = "";
-        if (args.length == 11) {
-            webHookName = args[2];
-        } else {
-            for (var x = 0; x < args.length-11; x++){
-                webHookName += args[2+x];
+        var gameLength = 0;
+        var nameStart = 0;
+        var nameEnd = 0;
+        for (i in args){
+            console.log(args[i] + " position: " + i + " "+ gameLength);
+            if (args[i] === "Hey") {
+                nameStart = gameLength + 1;
             }
+            if (args[i] === "it's") {
+                nameEnd = gameLength-1;
+            }
+            gameLength++;
         }
+        for (var i = nameStart; i <= nameEnd; i++) {
+            webHookName += args[i];
+        }
+        console.log("The NAME IS " + webHookName);
         //Make message a mention
         var finalMessage = "<@";
         //Get the userID from the config file
@@ -52,4 +62,4 @@ client.on("message", async message => {
         return;
     }
 });
-client.login(process.env.BOT_TOKEN);
+client.login("NzIxNzk3MTI1NzU4Nzc5NTEy.XubTzw.2gL8_ewdmnNcBB_bSnJFa84agag");
