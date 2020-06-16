@@ -3,6 +3,8 @@ const config = require('./config.json');
 const client = new Discord.Client();
 const prefix = config.prefix;
 var lastPlayer="";
+const lastMove = {};
+
 //Initiate Bot
 client.on('ready', () => {
     console.log("civMention online");
@@ -22,11 +24,32 @@ client.on("message", async message => {
     const args = message.content.slice(prefix).trim().split(/ +/g);
     //Get command
     const command = args[0];
-
-    if(command ==="!Remind"){
-        if (typeof config.users[lastPlayer] !== 'undefined') {
-            var finalMessage = "<@" + config.users[lastPlayer] + "> Hurry up, the game is waiting on you";
-            message.channel.send(finalMessage);;
+    if(command ==="!List"){
+        var finalMessage = "Here are the current games being played "+JSON.stringify(Object.keys(lastMove));
+        message.channel.send(finalMessage);
+    }
+    else if (command ==="!Help") {
+        var finalMessage = "!List: Lists all current games being played\n!Remind {gameName} will remind the person whose turn it is to make a move";
+        message.channel.send(finalMessage);
+    }
+    else if(command ==="!Remind"){
+        var gameName = "";
+        for (var i = 1; i <= args.length-1; i++) {
+            gameName += args[i];
+            if (i !== args.length-1) {
+                gameName += " ";
+            }
+        }
+        if( typeof args[1] === 'undefined') {
+            var finalMessage = "You need to speicy the name of the game you want me to remind the player";
+            message.channel.send(finalMessage);
+        }
+        else if (typeof lastMove[gameName] !== 'undefined') {
+            var finalMessage = "<@" + config.users[lastMove[gameName]] + "> hurry up, the game is waiting on you ";
+            message.channel.send(finalMessage);
+        } else {
+            var finalMessage = "I don't have a record of that game.";
+            message.channel.send(finalMessage);
         }
     }
     //Check if message is from the webhook
@@ -55,6 +78,9 @@ client.on("message", async message => {
         }
         for (var i = gameStart; i <= args.length-1; i++) {
             gameName += args[i];
+            if (i !== args.length-1) {
+                gameName += " ";
+            }
         }
         console.log("The game is called " + gameName);
         //Make message a mention
@@ -73,9 +99,11 @@ client.on("message", async message => {
             lastPlayer = "N/A";
             return;
         }
+        lastMove[gameName] = lastPlayer;
         //Finalize and send message
         finalMessage += "> It's your turn on the Civ6 Cloud Save Game called " + gameName;
         message.channel.send(finalMessage);
+        console.log(lastMove);
     } else {
         return;
     }
