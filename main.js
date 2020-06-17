@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const prefix = config.prefix;
 var lastPlayer="";
 const lastMove = {};
+const fJ = {};
 
 //Initiate Bot
 client.on('ready', () => {
@@ -27,6 +28,26 @@ client.on("message", async message => {
     if(command ==="!List"){
         var finalMessage = "Here are the current games being played "+JSON.stringify(Object.keys(lastMove));
         message.channel.send(finalMessage);
+    }
+    else if (command === "!FJ"){
+        var size  = Object.keys(fJ).length;
+        if (typeof args[1] !== 'undefined') {
+            size++;
+            var fJText = "";
+            for (var i = 1; i <= args.length-1; i++) {
+                fJText += args[i];
+                if (i !== args.length-1) {
+                    fJText += " ";
+                }
+            }
+            console.log (size +": " + fJText);
+            fJ[size] = fJText;
+        } else if (size >= 1){
+            var finalMessage = "";
+            var mID = Math.floor(Math.random() * Math.floor(size));
+            finalMessage = fJ[mID];
+            message.channel.send(finalMessage);
+        }
     }
     else if (command ==="!Help") {
         var finalMessage = "!List: Lists all current games being played\n!Remind {gameName} will remind the person whose turn it is to make a move";
