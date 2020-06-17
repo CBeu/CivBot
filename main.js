@@ -52,7 +52,7 @@ client.on("message", async message => {
         }
     }
     else if (command ==="!Help") {
-        var finalMessage = "!List: Lists all current games being played\n!Remind {gameName} will remind the person whose turn it is to make a move";
+        var finalMessage = "!List: Lists all current games being played\n!Remind {gameName} will remind the person whose turn it is to make a move\n!FJ {message} add a message for JFlar";
         message.channel.send(finalMessage);
     }
     else if(command ==="!Remind"){
