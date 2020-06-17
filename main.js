@@ -31,7 +31,7 @@ client.on("message", async message => {
     }
     else if (command === "!FJ"){
         var size  = Object.keys(fJ).length;
-        console.log("FJ size is: " + size);
+        console.log("FJ size is: " + size +"\n"+JSON.stringify(Object.keys(fJ)));
         if (typeof args[1] !== 'undefined') {
             size++;
             var fJText = "";
@@ -46,7 +46,7 @@ client.on("message", async message => {
             message.channel.send("Added text");
         } else if (size >= 1){
             var finalMessage = "";
-            var mID = Math.floor(Math.random() * Math.floor(size));
+            var mID = Math.floor(Math.random() * Math.floor(size-1));
             finalMessage = fJ[mID];
             message.channel.send(finalMessage);
         }
