@@ -4,7 +4,7 @@ const client = new Discord.Client();
 const prefix = config.prefix;
 var lastPlayer="";
 const lastMove = {};
-const fJ = {1: "Shut up john"};
+const fJ = {1: "Shut up <@214935314664259584>"};
 
 //Initiate Bot
 client.on('ready', () => {
@@ -45,9 +45,9 @@ client.on("message", async message => {
             fJ[size] = fJText;
             message.channel.send("Added text");
         } else {
-            var finalMessage = "";
+            var finalMessage = "<@214935314664259584> ";
             var keys = Object.keys(fJ);
-            finalMessage = fJ[keys[ keys.length * Math.random() << 0]];
+            finalMessage += fJ[keys[ keys.length * Math.random() << 0]];
             message.channel.send(finalMessage);
         }
     }
