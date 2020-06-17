@@ -4,7 +4,7 @@ const client = new Discord.Client();
 const prefix = config.prefix;
 var lastPlayer="";
 const lastMove = {};
-const fJ = {};
+const fJ = {1: "Shut up john"};
 
 //Initiate Bot
 client.on('ready', () => {
@@ -31,6 +31,7 @@ client.on("message", async message => {
     }
     else if (command === "!FJ"){
         var size  = Object.keys(fJ).length;
+        console.log("FJ size is: " + size);
         if (typeof args[1] !== 'undefined') {
             size++;
             var fJText = "";
