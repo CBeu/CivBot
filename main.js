@@ -44,10 +44,10 @@ client.on("message", async message => {
             console.log (size +": " + fJText);
             fJ[size] = fJText;
             message.channel.send("Added text");
-        } else if (size >= 1){
+        } else {
             var finalMessage = "";
-            var mID = Math.floor(Math.random() * Math.floor(size-1));
-            finalMessage = fJ[mID];
+            var keys = Object.keys(fJ);
+            finalMessage = fJ[keys[ keys.length * Math.random() << 0]];
             message.channel.send(finalMessage);
         }
     }
