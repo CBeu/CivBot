@@ -42,6 +42,7 @@ client.on("message", async message => {
             }
             console.log (size +": " + fJText);
             fJ[size] = fJText;
+            message.channel.send("Added text");
         } else if (size >= 1){
             var finalMessage = "";
             var mID = Math.floor(Math.random() * Math.floor(size));
